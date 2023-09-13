@@ -584,7 +584,6 @@ module.exports = { getBuffer }
 const fetch = require('node-fetch')
 const FormData = require('form-data')
 const { fromBuffer } = require('file-type')
-const baseUrl = "https://aemt.me";
 
 /**
  * Upload image to url
@@ -592,24 +591,22 @@ const baseUrl = "https://aemt.me";
  * - `image/jpeg`
  * - `image/jpg`
  * - `image/png`s
+ * - `video/mp4`s
+ * - `all files`
  * @param {Buffer} buffer Image Buffer
  */
 
 module.exports = async buffer => {
   let { ext } = await fromBuffer(buffer);
-  bodyForm = new FormData();
+  let bodyForm = new FormData();
   bodyForm.append("file", buffer, "file." + ext);
-
-  let response = await fetch(BaseUrl + "/api/upload.php", {
+  let res = await fetch("https://aemt.me/api/upload.php", {
     method: "post",
     body: bodyForm,
   });
-
-  return {
-    status: response.status,
-    creator: "AEMT",
-    result: (await response.json()).result,
-  };
+  let data = await res.json();
+  let resultUrl = data.result ? data.result.url : '';
+  return resultUrl;
 }
   </code>
        </pre>
