@@ -471,14 +471,13 @@ html, body {
 file-type version "16.5.3"
 node-fetch version "2.6.0" */
 
-let baseUrl = 'https://aemt.me'
 
 async function uploader(buffer) {
   let { ext } = await type.fromBuffer(buffer);
   bodyForm = new FormData();
   bodyForm.append("file", buffer, "file." + ext);
 
-  let response = await fetch(BaseUrl + "/api/upload.php", {
+  let response = await fetch("https://aemt.me/api/upload.php", {
     method: "post",
     body: bodyForm,
   });
